@@ -53,7 +53,7 @@ if !satisfied(z3jl_product; verbose=verbose)
 
     JlCxx_dir = joinpath(dirname(dirname(CxxWrap.jlcxx_path)), "lib", "cmake", "JlCxx")
     CMAKE_FLAGS = `-DCMAKE_BUILD_TYPE=Release -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=$(joinpath(prefix.path, "lib")) -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=$(joinpath(prefix.path, "bin"))`
-    run(`$cmake -G "Unix Makefiles" $CMAKE_FLAGS -DJlCxx_DIR=$JlCxx_dir -DZ3_CXX_INCLUDE_DIRS=$Z3_CXX_INCLUDE_DIRS -DZ3_LIBRARIES=$Z3_LIBRARIES`)
+    run(`$cmake -G "Unix Makefiles" $CMAKE_FLAGS -DJlCxx_DIR=$JlCxx_dir -DZ3_CXX_INCLUDE_DIRS=$Z3_CXX_INCLUDE_DIRS -DZ3_LIBRARIES=$Z3_LIBRARIES -DJulia_PREFIX=$(dirname(Sys.BINDIR))`)
     run(`make`)
 
     write_deps_file(joinpath(@__DIR__, "deps.jl"), [z3jl_product])
