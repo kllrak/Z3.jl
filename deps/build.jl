@@ -47,9 +47,13 @@ z3jl_product = LibraryProduct(prefix, "libz3jl", :libz3jl)
 
 if !satisfied(z3jl_product; verbose=verbose)
     cd(joinpath(@__DIR__, "src"))
+
+    Z3_CXX_INCLUDE_DIRS = joinpath(prefix.path, "include")
+    Z3_LIBRARIES = locate(products[1])
+
     JlCxx_dir = joinpath(dirname(dirname(CxxWrap.jlcxx_path)), "lib", "cmake", "JlCxx")
     CMAKE_FLAGS = `-DCMAKE_BUILD_TYPE=Release -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=$(joinpath(prefix.path, "lib")) -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=$(joinpath(prefix.path, "bin"))`
-    run(`$cmake -G "Unix Makefiles" $CMAKE_FLAGS -DJlCxx_DIR=$JlCxx_dir -DZ3_DIR=$(joinpath(prefix.path, "lib", "cmake", "z3"))`)
+    run(`$cmake -G "Unix Makefiles" $CMAKE_FLAGS -DJlCxx_DIR=$JlCxx_dir -DZ3_CXX_INCLUDE_DIRS=$Z3_CXX_INCLUDE_DIRS -DZ3_LIBRARIES=$Z3_LIBRARIES`)
     run(`make`)
 
     write_deps_file(joinpath(@__DIR__, "deps.jl"), [z3jl_product])
