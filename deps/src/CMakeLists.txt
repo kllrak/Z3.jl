@@ -10,9 +10,6 @@ add_library(z3jl SHARED z3jl.cpp)
 target_include_directories(z3jl PRIVATE ${Z3_CXX_INCLUDE_DIRS})
 target_link_libraries(z3jl PRIVATE JlCxx::cxxwrap_julia ${Z3_LIBRARIES} ${OPTIONAL_LINK_FLAGS})
 
-file(GLOB_RECURSE Z3_LIB_FILES "${Z3_DIR}/*${CMAKE_SHARED_LIBRARY_SUFFIX}")
-file(COPY ${Z3_LIB_FILES} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
 install(TARGETS z3jl
     RUNTIME DESTINATION lib
     ARCHIVE DESTINATION lib

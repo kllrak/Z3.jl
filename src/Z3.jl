@@ -1,6 +1,5 @@
 module Z3
 
-import Libdl
 using CxxWrap
 import Base: +, -, *, /, ^, ==, !=, !, <=, >=, <, >, xor, rem, mod, &, |, ~
 import Base: min, max, abs, sqrt
@@ -8,7 +7,9 @@ import Base: string, getindex, size, length, push!, isequal, hash
 import Base: numerator, denominator
 import Base: Int, Rational
 
-@wrapmodule(realpath(joinpath(Base.@__DIR__, "..", "deps", "src", "libz3jl." * Libdl.dlext)))
+include("../deps/deps.jl")
+
+@wrapmodule(libz3jl)
 
 function __init__()
     @initcxx
